@@ -1,3 +1,8 @@
+from player import player_info, show_status
+from battle import enemy_picker, adventure
+from shop import shop
+from defeated_enemies import show_defeated
+
 # GAME OVERALL SYSTEM | MENU + LEVELS + END GAME - JD & KYLA - game_system.py
 def game():
         
@@ -41,3 +46,35 @@ def game():
                 print("\n" + "=" * 23)
                 print("\nThanks for playing, , Hero {player['name']}!")
                 break
+
+            #end game system - KYLA
+            if player["cleared_levels"] >= 12: #win condition
+                print(f"\nCongratulations! You have cleared 12 levels, Hero {player['name']}!")
+                print("\nMore games to come...")
+                break
+
+            if player["chances"] >= 3: #lose condition
+                print("\nGame over... You used all chances")
+                break
+        
+        print("\n" + "=" * 23)
+
+        #restart system
+        print("\n[1] PLAY AGAIN | [2] EXIT THE GAME")
+
+        choice = input("\nChoose (1 or 2): ")
+
+        #validate choice - checks if input is a digit or not included in the choices
+        while not choice.isdigit() or int(choice) not in [1, 2]:
+            choice = input("\nSelected option invalid. Choose again (1 or 2 only): ")
+
+        if choice == "1":
+            continue #restart game
+
+        elif choice == "2":
+            print("\n" + "=" * 23)
+            print(f"\nExisting the game... Goodbye!")
+            print("\n" + "=" * 23)
+            break #exit game
+
+game()
