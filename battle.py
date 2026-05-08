@@ -2,7 +2,7 @@ def adventure(player):
 
     print("\n====== DUNGEON EXPEDITION ======")
 
-    # dungeon selection - JUSTIN
+    # dungeon selection - 
     print("\nChoose dungeon:")
     print("[1] Forest Dungeon")
     print("[2] Ice Cave")
