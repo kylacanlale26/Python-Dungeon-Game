@@ -1,3 +1,4 @@
+import random
 def adventure(player):
 
     print("\n====== DUNGEON EXPEDITION ======")
@@ -30,8 +31,82 @@ def adventure(player):
     print("\n" + "=" * 32)
 
     # enemy appears after selecting level
-    enemy = enemy_picker()
-    
-    print(f"\nA wild {enemy['name']} appeared!")
+    if level_choice == "1":
+        enemy = ["Goblin", 20]
 
-    print("\n" + "=" * 32)
+    elif level_choice == "2":
+        enemy = ["Ice Monster", 25]
+
+    elif level_choice == "3":
+        enemy = ["Dragon", 35]
+
+    print(f"\nA wild {enemy[0]} appeared!")
+    
+    actions = ("Attack", "Defend")
+
+    # while loop to check if the player and the monster are still alive
+    while player[1] > 0 and enemy[1] > 0:
+
+        # print choices
+        print(f"\n1. {actions[0]}")
+        print(f"2. {actions[1]}")
+
+        # ask player for input
+        choice = input("Choose: ")
+
+        # check if the player chooses to attack
+        if choice == "1":
+
+            # generate random damage from 5 to 10
+            damage = random.randint(5, 10)
+
+            # minus damage from monster hp
+            enemy[1] = enemy[1] - damage
+
+            # print attack message
+            print(f"\n{player[0]} attacked the {enemy[0]} for {damage} damage!")
+
+            # check if the monster is still alive to attack back
+            if enemy[1] > 0:
+
+                # generate monster damage from 4 to 8
+                monster_damage = random.randint(4, 8)
+
+                # minus player HP
+                player[1] = player[1] - monster_damage
+
+                # print monster attack message
+                print(f"{enemy[0]} attacked back for {monster_damage} damage!")
+
+        # if the player chooses to defend
+        elif choice == "2":
+
+            # print defend message
+            print(f"\n{player[0]} defended!")
+
+            # lower damage because player chose to defend
+            monster_damage = random.randint(1, 4)
+
+            # minus player HP
+            player[1] = player[1] - monster_damage
+
+            # print lowered damage message
+            print(f"{enemy[0]} attacked for only {monster_damage} damage!")
+
+        # if the input is not in the choices
+        else:
+            print("\nInvalid choice!")
+
+        # print current HP
+        print(f"\n{player[0]} HP: {player[1]}")
+        print(f"{enemy[0]} HP: {enemy[1]}")
+
+    # print if the player won or lost depending on the players hp
+    if player[1] > 0:
+        print(f"\n{player[0]} won!")
+    else:
+        print(f"\n{player[0]} lost!")
+    
+player = ["Hero", 30]
+
+adventure(player)
