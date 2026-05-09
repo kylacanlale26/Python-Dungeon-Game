@@ -1,4 +1,5 @@
 import random
+import sys
 
 class Player:
     def __init__(self, name, player_class, hp, atk, skill):
@@ -10,7 +11,7 @@ class Player:
         self.inventory = []
 
     # Display player information
-    def show_stats(self):
+    def display_stats(self):
         print("\n===== PLAYER STATS =====")
         print(f"Name      : {self.name}")
         print(f"Class     : {self.player_class}")
@@ -19,6 +20,15 @@ class Player:
         print(f"Skill     : {self.skill}")
         print(f"Inventory : {', '.join(self.inventory) if self.inventory else 'Empty'}")
         print("========================")
+
+
+class Monster:
+    def __init__(self, name, hp, atk, description, loot):
+        self.name = name
+        self.hp = hp
+        self.atk = atk
+        self.description = description
+        self.loot = loot
 
 
 # classes and stats
@@ -42,6 +52,17 @@ classes = {
         "skill": "Backstab (Critical hit chance)"
     }
 }
+
+#goblin, beast, undead, giant_beast, goblin_king
+goblin = ["Goblin", 40]
+beast = ["Beast", 70]
+undead = ["Undead", 50]
+giant_beast = ["Giant Beast", 200]
+goblin_king = ["Goblin King", 200]
+
+potion_loot = "Potion"
+sword_loot = "Steel Sword"
+armor_loot = "Knight Armor"
 
 #welcome
 print("HELLO HERO")
@@ -76,50 +97,10 @@ player = Player(
 )
 
 # Display player information
-player.show_stats()
+player.display_stats()
 
-def adventure(player):
 
-    print("\n====== DUNGEON EXPEDITION ======")
-
-    # dungeon selection -
-    print("\nChoose dungeon:")
-    print("[1] Forest Dungeon")
-    print("[2] Ice Cave")
-    print("[3] Dragon Castle")
-
-    level_choice = input("\nEnter level (1-3): ")
-
-    while level_choice not in ["1", "2", "3"]:
-        level_choice = input("\nInvalid choice! Choose again (1-3): ")
-
-    print("\n" + "=" * 32)
-
-    if level_choice == "1":
-        print("\nYou entered the Forest Dungeon.")
-        print("\nDark trees surround the area.")
-
-    elif level_choice == "2":
-        print("\nYou entered the Ice Cave.")
-        print("The cave is freezing cold.")
-
-    elif level_choice == "3":
-        print("\nYou entered the Dragon Castle.")
-        print("The castle is full of fire.")
-
-    print("\n" + "=" * 32)
-
-    # enemy appears after selecting level
-    if level_choice == "1":
-        enemy = ["Goblin", 20]
-
-    elif level_choice == "2":
-        enemy = ["Ice Monster", 25]
-
-    elif level_choice == "3":
-        enemy = ["Dragon", 35]
-
-    print(f"\nA wild {enemy[0]} appeared!")
+def combat(player, enemy):
 
     actions = ("Attack", "Defend", player.skill)
 
@@ -228,5 +209,36 @@ def adventure(player):
 
     else:
         print(f"\n{player.name} lost!")
+
+
+def adventure(player):
+
+    current_room = 1
+    while True:
+        if current_room == 1:
+            print("\n[Room 1: Overgrown Entrance] Vines crawl the walls. Path leads South.")
+            act = input("(1) Explore (2) Go South (3) Stats: ")
+            if act == "1": combat(player, random.choice([goblin, beast]))
+            elif act == "2": current_room = 2
+            elif act == "3": player.display_stats()
+
+        elif current_room == 2:
+            print("\n[Room 2: Sunken Armory] Rust and shadows. Paths: North, East.")
+            act = input("(1) Explore (2) Go North (3) Go East (4) Stats: ")
+            if act == "1": combat(player, random.choice([undead, giant_beast]))
+            elif act == "2": current_room = 1
+            elif act == "3": current_room = 3
+            elif act == "4": player.display_stats()
+
+        elif current_room == 3:
+            print("\n[Room 3: Boss Sanctum] The air is heavy. Path: West.")
+            act = input("(1) FIGHT BOSS (2) Go West (3) Stats: ")
+            if act == "1":
+                combat(player, goblin_king)
+                print("\n🎉 GAME COMPLETED: You have defeated the bosses and cleared the dungeon!")
+                sys.exit()
+            elif act == "2": current_room = 2
+            elif act == "3": player.display_stats()
+
 
 adventure(player)
