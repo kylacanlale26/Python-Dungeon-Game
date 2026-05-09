@@ -1,11 +1,20 @@
 class Player:
     def __init__(self, name, player_class, hp, atk, skill):
-        self.name = name                  
-        self.player_class = player_class 
-        self.hp = hp                     
-        self.atk = atk                    
-        self.skill = skill                
-        self.inventory = []             
+        self.name = name
+        self.player_class = player_class
+        self.hp = hp
+        self.atk = atk
+        self.skill = skill
+
+        # Assign starting weapon based on class
+        if self.player_class == "Warrior":
+            self.inventory = ["Long Sword"]
+        elif self.player_class == "Mage":
+            self.inventory = ["Wand"]
+        elif self.player_class == "Rogue":
+            self.inventory = ["Dagger"]
+        else:
+            self.inventory = []
 
     # Display player information
     def show_stats(self):
@@ -19,7 +28,7 @@ class Player:
         print("========================")
 
 
-# classes and stats
+# Classes and stats
 classes = {
     "1": {
         "name": "Warrior",
@@ -34,27 +43,26 @@ classes = {
         "skill": "Fireball (High AOE damage)"
     },
     "3": {
-        "name": "Rogue",  
+        "name": "Rogue",
         "hp": 90,
         "atk": 20,
         "skill": "Backstab (Critical hit chance)"
     }
 }
 
-#welcome
+# Welcome message
 print("HELLO HERO")
 
-# input player name
-
+# Input player name
 name = input("What is your name?: ")
 
-# class choices
+# Class choices
 print("\nChoose your class:")
 print("1. Warrior - HP: 120 | ATK: 15 | Skill: Shield Bash")
 print("2. Mage    - HP: 80  | ATK: 25 | Skill: Fireball")
 print("3. Rogue   - HP: 90  | ATK: 20 | Skill: Backstab")
 
-# choose class
+# Choose class
 while True:
     choice = input("Enter class number (1-3): ")
     if choice in classes:
