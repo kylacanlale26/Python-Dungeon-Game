@@ -1,8 +1,4 @@
-from combine import name
-# from battle import enemy_picker, adventure
-# from shop import shop
-# from defeated_enemies import show_defeated
-
+from combine import hero, adventure
 
 # GAME OVERALL SYSTEM
 def game():
@@ -13,14 +9,12 @@ def game():
 
     print("\nExplore dangerous dungeons, defeat enemies, and become the strongest hero!") #game description
 
-    # hero()
+    player = hero() #calls hero name and stats choice input and stats display
 
     # game objectives
 
-    # entering room/s
-
     # menu
 
-    # battle
+    adventure(player) # calls adventure function
 
 game()

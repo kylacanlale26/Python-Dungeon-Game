@@ -73,40 +73,43 @@ potion_loot = "Potion"
 sword_loot = "Steel Sword"
 armor_loot = "Knight Armor"
 
-#welcome
-print("HELLO HERO")
+def hero(): #ginawa ko pong def kasi di ko macall HAHAHAH - ky
+    #welcome
+    print("\nHELLO HERO")
 
-# input player name
-name = input("What is your name?: ")
+    # input player name
+    name = input("\nWhat is your name?: ")
 
-# class choices
-print("\nChoose your class:")
-print("1. Warrior - HP: 120 | ATK: 15 | Skill: Shield Bash")
-print("2. Mage    - HP: 80  | ATK: 25 | Skill: Fireball")
-print("3. Rogue   - HP: 90  | ATK: 20 | Skill: Backstab")
+    # class choices
+    print("\nChoose your class:")
+    print("1. Warrior - HP: 120 | ATK: 15 | Skill: Shield Bash")
+    print("2. Mage    - HP: 80  | ATK: 25 | Skill: Fireball")
+    print("3. Rogue   - HP: 90  | ATK: 20 | Skill: Backstab")
 
-# choose class
-while True:
-    choice = input("Enter class number (1-3): ")
+    # choose class
+    while True:
+        choice = input("Enter class number (1-3): ")
 
-    if choice in classes:
-        selected = classes[choice]
-        break
+        if choice in classes:
+            selected = classes[choice]
+            break
 
-    else:
-        print("Invalid choice. Please enter 1, 2, or 3.")
+        else:
+            print("Invalid choice. Please enter 1, 2, or 3.")
 
-# Create player
-player = Player(
-    name=name,
-    player_class=selected["name"],
-    hp=selected["hp"],
-    atk=selected["atk"],
-    skill=selected["skill"]
-)
+    # Create player
+    player = Player(
+        name=name,
+        player_class=selected["name"],
+        hp=selected["hp"],
+        atk=selected["atk"],
+        skill=selected["skill"]
+    )
 
-# Display player information
-player.display_stats()
+    # Display player information
+    player.display_stats()
+
+    return player
 
 
 def combat(player, enemy):
@@ -271,5 +274,8 @@ def adventure(player):
             elif act == "3":
                 player.display_stats()
 
+# player = hero()
 
-adventure(player)
+# adventure(player)
+
+# ^^ ginawa ko muna silang comment para pu marun ko sila sa game_system.py hehe
