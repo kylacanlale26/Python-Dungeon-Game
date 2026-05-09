@@ -10,6 +10,16 @@ class Player:
         self.skill = skill
         self.inventory = []
 
+   # Assign starting weapon based on class
+        if self.player_class == "Warrior":
+            self.inventory = ["Long Sword"]
+        elif self.player_class == "Mage":
+            self.inventory = ["Wand"]
+        elif self.player_class == "Rogue":
+            self.inventory = ["Dagger"]
+        else:
+            self.inventory = []
+
     # Display player information
     def display_stats(self):
         print("\n===== PLAYER STATS =====")
