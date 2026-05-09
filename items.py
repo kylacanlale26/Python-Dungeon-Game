@@ -64,7 +64,7 @@ consumables = {
 def pickup_item(player, item_name):
 
     # Add item to inventory 
-    player["inventory"].append(item_name)
+    player.inventory.append(item_name)
 
     print(f"\nYou picked up {item_name}!")
 
@@ -73,9 +73,9 @@ def pickup_item(player, item_name):
 
         weapon = weapons[item_name]
 
-        player["attack"] += weapon["attack_bonus"]
+        player.atk += weapon["attack_bonus"]
 
-        player["weapon"] = item_name
+        # player["weapon"] = item_name
 
         print(f"{item_name} equipped!")
         print(f"Attack increased by {weapon['attack_bonus']}")
@@ -85,10 +85,10 @@ def pickup_item(player, item_name):
 
         armor = armors[item_name]
 
-        player["hp"] += armor["hp_bonus"]
-        player["max_hp"] += armor["hp_bonus"]
+        player.hp += armor["hp_bonus"]
+        player.max_hp += armor["hp_bonus"]
 
-        player["armor"] = item_name
+        player.armor = item_name
 
         print(f"{item_name} equipped!")
         print(f"HP increased by {armor['hp_bonus']}")
@@ -99,19 +99,19 @@ def pickup_item(player, item_name):
 def use_item(player):
 
     # Check if inventory is empty
-    if not player["inventory"]:
+    if not player.inventory:
         print("\nInventory is empty.")
         return
 
     print("\n====== INVENTORY ======")
 
-    for index, item in enumerate(player["inventory"], start=1):
+    for index, item in enumerate(player.inventory, start=1):
         print(f"{index}. {item}")
 
     try:
         choice = int(input("\nChoose item number to use: "))
 
-        selected_item = player["inventory"][choice - 1]
+        selected_item = player.inventory[choice - 1]
 
         # CHECK IF ITEM IS CONSUMABLE
         if selected_item in consumables:
@@ -120,17 +120,17 @@ def use_item(player):
 
             heal_amount = potion["heal"]
 
-            player["hp"] += heal_amount
+            player.hp += heal_amount
 
             # Prevent HP overflow
-            if player["hp"] > player["max_hp"]:
-                player["hp"] = player["max_hp"]
+            if player.hp > player.max_hp:
+                player.hp = player.max_hp
 
             print(f"\nYou used {selected_item}!")
             print(f"You restored {heal_amount} HP!")
 
             # Remove item after use
-            player["inventory"].remove(selected_item)
+            player.inventory.remove(selected_item)
 
         else:
             print("\nThis item cannot be used.")
@@ -145,46 +145,46 @@ def use_item(player):
 def discard_item(player):
 
     # Check if inventory is empty
-    if not player["inventory"]:
+    if not player.inventory:
         print("\nInventory is empty.")
         return
 
     print("\n====== INVENTORY ======")
 
-    for index, item in enumerate(player["inventory"], start=1):
+    for index, item in enumerate(player.inventory, start=1):
         print(f"{index}. {item}")
 
     try:
         choice = int(input("\nChoose item number to discard: "))
 
-        removed_item = player["inventory"].pop(choice - 1)
+        removed_item = player.inventory.pop(choice - 1)
 
         print(f"\n{removed_item} discarded.")
 
     except:
         print("\nInvalid choice.")
 
-# PLAYER DATA
-# Stores player stats and inventory.
+# # PLAYER DATA
+# # Stores player stats and inventory.
 
-player = {
-    "name": "Hero",
-    "hp": 100,
-    "max_hp": 100,
-    "attack": 15,
-    "inventory": [],
-    "weapon": None,
-    "armor": None
-}
+# player = {
+#     "name": "Hero",
+#     "hp": 100,
+#     "max_hp": 100,
+#     "attack": 15,
+#     "inventory": [],
+#     "weapon": None,
+#     "armor": None
+# }
 
-# SAMPLE TESTING - this shows what happens
+# # SAMPLE TESTING - this shows what happens
 
-pickup_item(player, "Longsword")
-pickup_item(player, "Healing Potion")
+# pickup_item(player, "Longsword")
+# pickup_item(player, "Healing Potion")
 
-print("\nCurrent Inventory:", player["inventory"])
+# print("\nCurrent Inventory:", player["inventory"])
 
-use_item(player)
+# use_item(player)
 
-print("\nPlayer HP:", player["hp"])
-print("Player Attack:", player["attack"])
+# print("\nPlayer HP:", player["hp"])
+# print("Player Attack:", player["attack"])

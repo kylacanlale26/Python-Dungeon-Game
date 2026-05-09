@@ -1,13 +1,17 @@
 import random
+from items import pickup_item, use_item, discard_item, weapons, armors, consumables #para magamit yung code sa items.py
 
 class Player:
     def __init__(self, name, player_class, hp, atk, skill):
         self.name = name
         self.player_class = player_class
         self.hp = hp
+        self.max_hp = hp
         self.atk = atk
         self.skill = skill
         self.inventory = []
+        self.weapon = None
+        self.armor = None
         
          # Assign starting weapon based on class
         if self.player_class == "Warrior":
@@ -24,7 +28,7 @@ class Player:
         print("\n===== PLAYER STATS =====")
         print(f"Name      : {self.name}")
         print(f"Class     : {self.player_class}")
-        print(f"HP        : {self.hp}")
+        print(f"HP        : {self.hp}/{self.max_hp}")
         print(f"ATK       : {self.atk}")
         print(f"Skill     : {self.skill}")
         print(f"Inventory : {', '.join(self.inventory) if self.inventory else 'Empty'}")
@@ -204,6 +208,17 @@ def combat(player, enemy):
 
     print(f"\n{player.name} won!")
 
+    #loot system pu from items.py
+    loot_pool = list(weapons.keys()) + list(consumables.keys())
+
+    # chance to drop item
+    if loot_pool:
+        dropped_item = random.choice(loot_pool)
+
+        print(f"\n{enemy[0]} dropped {dropped_item}!")
+
+        pickup_item(player, dropped_item)
+
     return True
 
 
@@ -220,7 +235,7 @@ def adventure(player):
 
         if current_room == 1:
             print("\n[Room 1: Overgrown Entrance] Vines crawl the walls. Path leads South.")
-            act = input("(1) Explore (2) Go South (3) Stats: ")
+            act = input("(1) Explore (2) Go South (3) Stats (4) Inventory (5) Discard Items: ")
 
             if act == "1":
                 if combat(player, random.choice([goblin, beast])):
@@ -236,9 +251,15 @@ def adventure(player):
             elif act == "3":
                 player.display_stats()
 
+            elif act == "4": #from items.py
+                use_item(player)
+
+            elif act == "5":
+                discard_item(player)
+
         elif current_room == 2:
             print("\n[Room 2: Sunken Armory] Rust and shadows. Paths: North, East.")
-            act = input("(1) Explore (2) Go North (3) Go East (4) Stats: ")
+            act = input("(1) Explore (2) Go North (3) Go East (4) Stats (5) Inventory (6) Discard Items: ")
 
             if act == "1":
                 if combat(player, random.choice([undead, giant_beast])):
@@ -254,12 +275,18 @@ def adventure(player):
                 else:
                     print("You must defeat Room 2 first!")
 
-            elif act == "4":
+            elif act == "4": #from items.py
                 player.display_stats()
+
+            elif act == "5":
+                use_item(player)
+
+            elif act == "6":
+                discard_item(player)
 
         elif current_room == 3:
             print("\n[Room 3: Boss Sanctum] The air is heavy. Path: West.")
-            act = input("(1) FIGHT BOSS (2) Go West (3) Stats: ")
+            act = input("(1) FIGHT BOSS (2) Go West (3) Stats (4) Inventory (5) Discard Items: ")
 
             if act == "1":
                 if combat(player, goblin_king):
@@ -273,6 +300,12 @@ def adventure(player):
 
             elif act == "3":
                 player.display_stats()
+
+            elif act == "4": #from items.py
+                use_item(player)
+
+            elif act == "5":
+                discard_item(player)
 
 # player = hero()
 
