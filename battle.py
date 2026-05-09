@@ -104,6 +104,13 @@ def adventure(player):
     # print if the player won or lost depending on the players hp
     if player[1] > 0:
         print(f"\n{player[0]} won!")
+        # chance to get a chest when u kill the enemy
+        if random.random() < 0.3:  # 30% chance
+            print("\n✨ LUCKY! The enemy dropped a mysterious chest! ✨")
+            gold = random.randint(10, 50)
+            print(f"You opened it and found {gold} gold pieces!")
+        else:
+            print(f"\nThe {enemy[0]} didn't drop anything this time.")
     else:
         print(f"\n{player[0]} lost!")
     
