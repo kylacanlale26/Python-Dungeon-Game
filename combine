@@ -1,5 +1,4 @@
 import random
-import sys
 
 class Player:
     def __init__(self, name, player_class, hp, atk, skill):
@@ -9,8 +8,8 @@ class Player:
         self.atk = atk
         self.skill = skill
         self.inventory = []
-
-   # Assign starting weapon based on class
+        
+         # Assign starting weapon based on class
         if self.player_class == "Warrior":
             self.inventory = ["Long Sword"]
         elif self.player_class == "Mage":
@@ -111,6 +110,11 @@ player.display_stats()
 
 
 def combat(player, enemy):
+    
+    enemy = enemy[:]  
+
+    print("\n===== COMBAT START =====")
+    print(f"A wild {enemy[0]} appears!")
 
     actions = ("Attack", "Defend", player.skill)
 
@@ -132,7 +136,7 @@ def combat(player, enemy):
             damage = random.randint(5, 10)
 
             # minus damage from monster hp
-            enemy[1] = enemy[1] - damage
+            enemy[1] = max(0, enemy[1] - damage)
 
             # print attack message
             print(f"\n{player.name} attacked the {enemy[0]} for {damage} damage!")
@@ -144,7 +148,7 @@ def combat(player, enemy):
                 monster_damage = random.randint(4, 8)
 
                 # minus player HP
-                player.hp = player.hp - monster_damage
+                player.hp = max(0, player.hp - monster_damage)
 
                 # print monster attack message
                 print(f"{enemy[0]} attacked back for {monster_damage} damage!")
@@ -159,7 +163,7 @@ def combat(player, enemy):
             monster_damage = random.randint(1, 4)
 
             # minus player HP
-            player.hp = player.hp - monster_damage
+            player.hp = max(0, player.hp - monster_damage)
 
             # print lowered damage message
             print(f"{enemy[0]} attacked for only {monster_damage} damage!")
@@ -169,7 +173,7 @@ def combat(player, enemy):
 
             skill_damage = random.randint(8, 15)
 
-            enemy[1] = enemy[1] - skill_damage
+            enemy[1] = max(0, enemy[1] - skill_damage)
 
             print(f"\n{player.name} used {player.skill}!")
             print(f"It dealt {skill_damage} damage!")
@@ -178,7 +182,7 @@ def combat(player, enemy):
 
                 monster_damage = random.randint(10, 15)
 
-                player.hp = player.hp - monster_damage
+                player.hp = max(0, player.hp - monster_damage)
 
                 print(f"{enemy[0]} attacked back for {monster_damage} damage!")
 
@@ -190,65 +194,82 @@ def combat(player, enemy):
         print(f"\n{player.name} HP: {player.hp}")
         print(f"{enemy[0]} HP: {enemy[1]}")
 
-    # print if the player won or lost depending on the players hp
-    if player.hp > 0:
-
-        print(f"\n{player.name} won!")
-
-        # chance to get a loot when u kill the enemy
-        if random.random() < 0.8:  # 80% chance to find loot
-
-            print(f"\n✨ {enemy[0]} dropped a loot bag! ✨")
-
-            # Gold and XP
-            gold_gain = random.randint(15, 40)
-            xp_gain = random.randint(50, 100)
-
-            print(f"💰 Found: {gold_gain} Gold")
-            print(f"⭐ Gained: {xp_gain} XP")
-
-            if random.random() < 0.2:  # 20% chance within the loot bag to find gear
-
-                gear_type = random.choice(["Sword", "Armor"])
-                gear_tier = random.choice(["Rusty", "Steel", "Enchanted"])
-
-                print(f"⚔️ New Gear: You found {gear_tier} {gear_type}!")
-
-        else:
-            print(f"\nThe {enemy[0]} left behind nothing but dust.")
-
-    else:
+    if player.hp <= 0:
         print(f"\n{player.name} lost!")
+        print("Game Over!")
+        return False
+
+    print(f"\n{player.name} won!")
+
+    return True
 
 
 def adventure(player):
 
     current_room = 1
+    room1_cleared = False
+    room2_cleared = False
+
     while True:
+        if player.hp <= 0:
+            print("💀 Game Over!")
+            break
+
         if current_room == 1:
             print("\n[Room 1: Overgrown Entrance] Vines crawl the walls. Path leads South.")
             act = input("(1) Explore (2) Go South (3) Stats: ")
-            if act == "1": combat(player, random.choice([goblin, beast]))
-            elif act == "2": current_room = 2
-            elif act == "3": player.display_stats()
+
+            if act == "1":
+                if combat(player, random.choice([goblin, beast])):
+                    room1_cleared = True
+
+            elif act == "2":
+                # FIX: block skipping
+                if room1_cleared:
+                    current_room = 2
+                else:
+                    print("You must defeat Room 1 first!")
+
+            elif act == "3":
+                player.display_stats()
 
         elif current_room == 2:
             print("\n[Room 2: Sunken Armory] Rust and shadows. Paths: North, East.")
             act = input("(1) Explore (2) Go North (3) Go East (4) Stats: ")
-            if act == "1": combat(player, random.choice([undead, giant_beast]))
-            elif act == "2": current_room = 1
-            elif act == "3": current_room = 3
-            elif act == "4": player.display_stats()
+
+            if act == "1":
+                if combat(player, random.choice([undead, giant_beast])):
+                    room2_cleared = True
+
+            elif act == "2":
+                current_room = 1
+
+            elif act == "3":
+                # FIX: block skipping boss room
+                if room2_cleared:
+                    current_room = 3
+                else:
+                    print("You must defeat Room 2 first!")
+
+            elif act == "4":
+                player.display_stats()
 
         elif current_room == 3:
             print("\n[Room 3: Boss Sanctum] The air is heavy. Path: West.")
             act = input("(1) FIGHT BOSS (2) Go West (3) Stats: ")
+
             if act == "1":
-                combat(player, goblin_king)
-                print("\n🎉 GAME COMPLETED: You have defeated the bosses and cleared the dungeon!")
-                sys.exit()
-            elif act == "2": current_room = 2
-            elif act == "3": player.display_stats()
+                if combat(player, goblin_king):
+                    print("\nGAME COMPLETED: You have defeated the bosses and cleared the dungeon!")
+                    break
+                else:
+                    break
+
+            elif act == "2":
+                current_room = 2
+
+            elif act == "3":
+                player.display_stats()
 
 
 adventure(player)
