@@ -1,53 +1,190 @@
-def shop(player):
+# ITEM SYSTEM
 
-    shop_items = [
-        ("Small Potion", 10, 20), #name, price, 
-        ("Medium Potion", 20, 40),
-        ("Large Potion", 35, 70)
-    ]
+# This dictionary stores all weapon items in the game.
+# Weapons increase player attack damage
+weapons = {
+    "Longsword": {
+        "type": "Weapon",
+        "attack_bonus": 5,
+        "description": "A sharp steel sword used by warriors."
+    },
 
-    while True: #shop session
-        print("\n====== SHOP ======")
+    "Magic Staff": {
+        "type": "Weapon",
+        "attack_bonus": 8,
+        "description": "A staff infused with magical power."
+    },
 
-        print(f"\nGold: {player['gold']}\n") #display gold count
+    "Dagger": {
+        "type": "Weapon",
+        "attack_bonus": 4,
+        "description": "A small blade perfect for quick attacks."
+    }
+}
 
-        for index, item in enumerate(shop_items, start=1):
-            print(f"[{index}] {item[0]} - {item[1]} Gold")
-        print("[0] Exit Shop")
+# Armors increase player HP / defense
+armors = {
+    "Leather Armor": {
+        "type": "Armor",
+        "hp_bonus": 15,
+        "description": "Light armor made from hardened leather."
+    },
 
-        choice = input("\nChoose item to buy (1-3 or 0): ")
+    "Knight Armor": {
+        "type": "Armor",
+        "hp_bonus": 25,
+        "description": "Heavy armor worn by elite knights."
+    },
 
-        #validate input - checks if its a digit or included in the choices
-        while choice not in ["1", "2", "3", "0"]: #loop to keep asking if invalid input
-            choice = input("\nSelected option invalid. Choose again: ")
+    "Mystic Robe": {
+        "type": "Armor",
+        "hp_bonus": 20,
+        "description": "A magical robe used by ancient mages."
+    }
+}
 
-        if choice == "0":
-            print("\n" + "=" * 18)
-            print("\nLeaving shop...")
-            return
+# Consumable items restore HP
+consumables = {
+    "Healing Potion": {
+        "type": "Consumable",
+        "heal": 30,
+        "description": "Restores 30 HP."
+    },
 
-        if choice.isdigit():
+    "Mega Potion": {
+        "type": "Consumable",
+        "heal": 60,
+        "description": "Restores 60 HP."
+    }
+}
 
-            choice = int(choice)
+# PICKUP ITEM FUNCTION
+#This function handles item pickup.
 
-            if 1 <= choice <= len(shop_items):
-                item = shop_items[choice - 1]
+def pickup_item(player, item_name):
 
-                if player["gold"] >= item[1]:
-                    player["gold"] -= item[1]
-                    player["hp"] = min(player["hp"] + item[2], player["max_hp"]) # Don't over-heal
-                    player["inventory"].append(item[0])
-                    print(f"\nYou bought {item[0]} and healed!")
+    # Add item to inventory 
+    player["inventory"].append(item_name)
 
-                else:
-                    print("\nNot enough gold!")
+    print(f"\nYou picked up {item_name}!")
 
-            # ask if player wants to continue shopping
-            print("\n" + "=" * 18)
+    # EQUIP WEAPON
+    if item_name in weapons:
 
-        again = input("\nBuy another potion? [yes/no]: ").lower()
+        weapon = weapons[item_name]
 
-        if again == "no":
-            print("\n" + "=" * 18)
-            print("\nLeaving shop...")
-            return
+        player["attack"] += weapon["attack_bonus"]
+
+        player["weapon"] = item_name
+
+        print(f"{item_name} equipped!")
+        print(f"Attack increased by {weapon['attack_bonus']}")
+
+    # EQUIP ARMOR
+    elif item_name in armors:
+
+        armor = armors[item_name]
+
+        player["hp"] += armor["hp_bonus"]
+        player["max_hp"] += armor["hp_bonus"]
+
+        player["armor"] = item_name
+
+        print(f"{item_name} equipped!")
+        print(f"HP increased by {armor['hp_bonus']}")
+
+
+# USE CONSUMABLE FUNCTION
+
+def use_item(player):
+
+    # Check if inventory is empty
+    if not player["inventory"]:
+        print("\nInventory is empty.")
+        return
+
+    print("\n====== INVENTORY ======")
+
+    for index, item in enumerate(player["inventory"], start=1):
+        print(f"{index}. {item}")
+
+    try:
+        choice = int(input("\nChoose item number to use: "))
+
+        selected_item = player["inventory"][choice - 1]
+
+        # CHECK IF ITEM IS CONSUMABLE
+        if selected_item in consumables:
+
+            potion = consumables[selected_item]
+
+            heal_amount = potion["heal"]
+
+            player["hp"] += heal_amount
+
+            # Prevent HP overflow
+            if player["hp"] > player["max_hp"]:
+                player["hp"] = player["max_hp"]
+
+            print(f"\nYou used {selected_item}!")
+            print(f"You restored {heal_amount} HP!")
+
+            # Remove item after use
+            player["inventory"].remove(selected_item)
+
+        else:
+            print("\nThis item cannot be used.")
+
+    except:
+        print("\nInvalid choice.")
+
+
+# DISCARD ITEM FUNCTION
+# Allows the player to throw away unwanted items.
+
+def discard_item(player):
+
+    # Check if inventory is empty
+    if not player["inventory"]:
+        print("\nInventory is empty.")
+        return
+
+    print("\n====== INVENTORY ======")
+
+    for index, item in enumerate(player["inventory"], start=1):
+        print(f"{index}. {item}")
+
+    try:
+        choice = int(input("\nChoose item number to discard: "))
+
+        removed_item = player["inventory"].pop(choice - 1)
+
+        print(f"\n{removed_item} discarded.")
+
+    except:
+        print("\nInvalid choice.")
+
+# PLAYER DATA
+# Stores player stats and inventory.
+
+player = {
+    "name": "Hero",
+    "hp": 100,
+    "max_hp": 100,
+    "attack": 15,
+    "inventory": [],
+    "weapon": None,
+    "armor": None
+}
+
+# SAMPLE TESTING - this shows what happens
+
+pickup_item(player, "Longsword")
+pickup_item(player, "Healing Potion")
+
+print("\nCurrent Inventory:", player["inventory"])
+
+use_item(player)
+
+print("\nPlayer HP:", player["hp"])
+print("Player Attack:", player["attack"])
