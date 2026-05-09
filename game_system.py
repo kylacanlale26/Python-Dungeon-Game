@@ -1,4 +1,4 @@
-# from player import player_info, show_status
+from hero import hero
 # from battle import enemy_picker, adventure
 # from shop import shop
 # from defeated_enemies import show_defeated
@@ -9,9 +9,9 @@ def game():
     
     print("\n====== PYTHON DUNGEON QUEST ======")
 
-    # game description
+    print("\nWelcome to Python Dungeon Quest, Hero!")
 
-    # create character
+    hero()
 
     # game objectives
 
