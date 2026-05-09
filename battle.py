@@ -114,6 +114,11 @@ def adventure(player):
             print(f"💰 Found: {gold_gain} Gold")
             print(f"⭐ Gained: {xp_gain} XP")
 
+        #if random.random() < 0.2: # 20% chance within the loot bag to find gear
+                #gear_type = random.choice(["Weapon", "Armor"])
+                #gear_tier = random.choice(["Rusty", "Steel", "Enchanted"])
+                #print(f"⚔️ New Gear: You found {gear_tier} {gear_type}!")
+
         else:
             print(f"\nThe {enemy[0]} left behind nothing but dust.")
     else:
