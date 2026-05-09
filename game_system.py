@@ -1,4 +1,4 @@
-from hero import hero
+from combine import name
 # from battle import enemy_picker, adventure
 # from shop import shop
 # from defeated_enemies import show_defeated
@@ -7,11 +7,13 @@ from hero import hero
 # GAME OVERALL SYSTEM
 def game():
     
-    print("\n====== PYTHON DUNGEON QUEST ======")
+    print("\n====== PYTHON DUNGEON QUEST ======") #game name
 
-    print("\nWelcome to Python Dungeon Quest, Hero!")
+    print("\nWelcome to Python Dungeon Quest!") #welcome
 
-    hero()
+    print("\nExplore dangerous dungeons, defeat enemies, and become the strongest hero!") #game description
+
+    # hero()
 
     # game objectives
 
