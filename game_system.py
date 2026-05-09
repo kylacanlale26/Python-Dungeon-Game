@@ -17,7 +17,7 @@ def game():
 
     # entering room/s
 
-    # menu - see player stats & cleared rooms?
+    # menu
 
     # battle
 
