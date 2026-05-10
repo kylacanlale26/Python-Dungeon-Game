@@ -35,15 +35,6 @@ class Player:
         print(f"Inventory : {', '.join(self.inventory) if self.inventory else 'Empty'}")
         print("=" * 24) #boarder
 
-
-class Monster:
-    def __init__(self, name, hp, atk, description):
-        self.name = name
-        self.hp = hp
-        self.atk = atk
-        self.description = description
-
-
 # classes and stats
 classes = {
     "1": {
@@ -65,6 +56,13 @@ classes = {
         "skill": "Backstab (Critical hit chance)"
     }
 }
+
+class Monster:
+    def __init__(self, name, hp, atk, description):
+        self.name = name
+        self.hp = hp
+        self.atk = atk
+        self.description = description
 
 #goblin, beast, undead, giant_beast, goblin_king
 goblin = Monster(
@@ -102,7 +100,7 @@ goblin_king = Monster(
     description="The ruler of the goblins and master of the dungeon.",
 )
 
-def hero(): #ginawa ko pong def kasi di ko macall HAHAHAH - ky
+def hero():
     #welcome
     print("\nHello, Hero!")
 
@@ -139,6 +137,21 @@ def hero(): #ginawa ko pong def kasi di ko macall HAHAHAH - ky
     player.display_stats()
 
     return player
+
+def bonus_chest(player):
+
+    print("\n" + "=" * 24) #boarder
+
+    print("\nYou found a chest!")
+
+    loot_pool = list(weapons.keys()) + list(armors.keys()) + list(consumables.keys())
+    item = random.choice(loot_pool)
+
+    print(f"Chest contains: {item}")
+
+    pickup_item(player, item)
+
+    print("\n" + "=" * 24) #boarder
 
 
 def combat(player, enemy):
@@ -267,6 +280,24 @@ def combat(player, enemy):
 
     return True
 
+def explore_room(player, enemies):
+    event = random.choice(["combat", "chest", "empty"])
+
+    if event == "combat":
+        print("\nMonster appears!")
+        return combat(player, random.choice(enemies))  # ONLY THIS clears room
+
+    elif event == "chest":
+        bonus_chest(player)
+        return False   # NOT progress
+
+    else:
+        print("\n" + "=" * 24) #boarder
+        
+        print("\nThe room is empty...")
+        print("\n" + "=" * 24) #boarder
+        return False   # NOT progress
+
 
 def adventure(player):
 
@@ -280,11 +311,13 @@ def adventure(player):
             break
 
         if current_room == 1:
-            print("\n[Room 1: Overgrown Entrance] Vines crawl the walls. Path leads South.")
+            print("\n[Room 1: Overgrown Entrance]")
+            print("\nVines crawl the walls. Path leads South.")
+
             act = input("\n(1) Explore | (2) Go South | (3) Menu\n: ")
 
             if act == "1":
-                if combat(player, random.choice([goblin, beast])):
+                if explore_room(player, [goblin, beast]):
                     room1_cleared = True
 
             elif act == "2":
@@ -295,7 +328,7 @@ def adventure(player):
                 if room1_cleared:
                     current_room = 2
                 else:
-                    print("\nYou must defeat Room 1 first!")
+                    print("\nYou must defeat a monster in Room 1 first!")
 
                     print("\n" + "=" * 24) #boarder
 
@@ -303,11 +336,13 @@ def adventure(player):
                 menu(player)
 
         elif current_room == 2:
-            print("\n[Room 2: Sunken Armory] Rust and shadows. Paths: North, East.")
+            print("\n[Room 2: Sunken Armory]")
+            print("\nRust and shadows. Paths: North, East.")
+
             act = input("\n(1) Explore | (2) Go North | (3) Go East | (4) Menu\n: ")
 
             if act == "1":
-                if combat(player, random.choice([undead, giant_beast])):
+                if explore_room(player, [undead, giant_beast]):
                     room2_cleared = True
 
             elif act == "2":
@@ -320,7 +355,7 @@ def adventure(player):
                 if room2_cleared:
                     current_room = 3
                 else:
-                    print("\nYou must defeat Room 2 first!")
+                    print("\nYou must defeat a monster in Room 2 first!")
 
                     print("\n" + "=" * 24) #boarder
 
@@ -329,6 +364,8 @@ def adventure(player):
 
         elif current_room == 3:
             print("\n[Room 3: Boss Sanctum] The air is heavy. Path: West.")
+            print("\The air is heavy. Final battle awaits. Path: West.")
+
             act = input("\n(1) FIGHT BOSS | (2) Go West | (3) Menu\n: ")
 
             if act == "1":

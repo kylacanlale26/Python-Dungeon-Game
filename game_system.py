@@ -7,9 +7,10 @@
 #   Ocampo, Cassey
 #   Quiambao, Justin
 
-from combine import hero, adventure
+from hero import hero
+from adventure import adventure
 
-# run game here :3
+# run game here
 def game():
     
     print("\n~ PYTHON DUNGEON QUEST ~") #game name

@@ -167,7 +167,7 @@ def discard_item(player):
         print("\nInventory is empty.")
         return
 
-    print("\n====== INVENTORY ======")
+    print("\n======= INVENTORY ======")
 
     for index, item in enumerate(player.inventory, start=1):
         print(f"{index}. {item}")

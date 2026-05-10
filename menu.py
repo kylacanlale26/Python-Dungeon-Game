@@ -10,7 +10,7 @@ def menu(player):
 
             #display format of the options | joins the list into one string
             formatted = " | ".join([f"[{i}] {item}" for i, item in enumerate(options, start=1)])
-
+            
             menu = input(f"\n{formatted}\n: ")
 
             #validate choice - checks if input is a digit or not included in the choices
