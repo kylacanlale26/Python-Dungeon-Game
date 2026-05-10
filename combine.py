@@ -1,5 +1,5 @@
 import random
-from items import pickup_item, weapons, consumables #para magamit yung code sa items.py
+from items import pickup_item, weapons, armors, consumables #para magamit yung code sa items.py
 from menu import menu
 
 class Player:
@@ -37,12 +37,11 @@ class Player:
 
 
 class Monster:
-    def __init__(self, name, hp, atk, description, loot):
+    def __init__(self, name, hp, atk, description):
         self.name = name
         self.hp = hp
         self.atk = atk
         self.description = description
-        self.loot = loot
 
 
 # classes and stats
@@ -68,15 +67,40 @@ classes = {
 }
 
 #goblin, beast, undead, giant_beast, goblin_king
-goblin = ["Goblin", 40]
-beast = ["Beast", 70]
-undead = ["Undead", 50]
-giant_beast = ["Giant Beast", 200]
-goblin_king = ["Goblin King", 200]
+goblin = Monster(
+    name="Goblin",
+    hp=40,
+    atk=8,
+    description="A sneaky green creature hiding in the shadows.",
+)
 
-potion_loot = "Potion"
-sword_loot = "Steel Sword"
-armor_loot = "Knight Armor"
+beast = Monster(
+    name="Beast",
+    hp=70,
+    atk=12,
+    description="A wild beast with razor sharp claws.",
+)
+
+undead = Monster(
+    name="Undead",
+    hp=50,
+    atk=10,
+    description="A cursed warrior revived from the dead.",
+)
+
+giant_beast = Monster(
+    name="Giant Beast",
+    hp=120,
+    atk=18,
+    description="A massive monster that shakes the dungeon floor.",
+)
+
+goblin_king = Monster(
+    name="Goblin King",
+    hp=200,
+    atk=25,
+    description="The ruler of the goblins and master of the dungeon.",
+)
 
 def hero(): #ginawa ko pong def kasi di ko macall HAHAHAH - ky
     #welcome
@@ -119,15 +143,16 @@ def hero(): #ginawa ko pong def kasi di ko macall HAHAHAH - ky
 
 def combat(player, enemy):
     
-    enemy = enemy[:]  
+    enemy_hp = enemy.hp
 
     print("\n===== COMBAT START =====")
-    print(f"\nA wild {enemy[0]} appears!")
+    print(f"\nA wild {enemy.name} appears!")
+    print(f"\n{enemy.description}")
 
     actions = ("Attack", "Defend", player.skill)
 
     # while loop to check if the player and the monster are still alive
-    while player.hp > 0 and enemy[1] > 0:
+    while player.hp > 0 and enemy_hp > 0:
 
         # print choices
         print(f"\n1. {actions[0]}")
@@ -146,13 +171,13 @@ def combat(player, enemy):
             damage = random.randint(5, 10)
 
             # minus damage from monster hp
-            enemy[1] = max(0, enemy[1] - damage)
+            enemy_hp = max(0, enemy_hp - damage)
 
             # print attack message
-            print(f"\n{player.name} attacked the {enemy[0]} for {damage} damage!")
+            print(f"\n{player.name} attacked the {enemy.name} for {damage} damage!")
 
             # check if the monster is still alive to attack back
-            if enemy[1] > 0:
+            if enemy_hp > 0:
 
                 # generate monster damage from 4 to 8
                 monster_damage = random.randint(4, 8)
@@ -161,7 +186,7 @@ def combat(player, enemy):
                 player.hp = max(0, player.hp - monster_damage)
 
                 # print monster attack message
-                print(f"\n{enemy[0]} attacked back for {monster_damage} damage!")
+                print(f"\n{enemy.name} attacked back for {monster_damage} damage!")
 
             print("\n" + "=" * 24) #boarder
 
@@ -178,7 +203,7 @@ def combat(player, enemy):
             player.hp = max(0, player.hp - monster_damage)
 
             # print lowered damage message
-            print(f"\n{enemy[0]} attacked for only {monster_damage} damage!")
+            print(f"\n{enemy.name} attacked for only {monster_damage} damage!")
 
             print("\n" + "=" * 24) #boarder
 
@@ -187,18 +212,18 @@ def combat(player, enemy):
 
             skill_damage = random.randint(8, 15)
 
-            enemy[1] = max(0, enemy[1] - skill_damage)
+            enemy_hp = max(0, enemy_hp - skill_damage)
 
             print(f"\n{player.name} used {player.skill}!")
             print(f"\nIt dealt {skill_damage} damage!")
 
-            if enemy[1] > 0:
+            if enemy_hp > 0:
 
                 monster_damage = random.randint(10, 15)
 
                 player.hp = max(0, player.hp - monster_damage)
 
-                print(f"\n{enemy[0]} attacked back for {monster_damage} damage!")
+                print(f"\n{enemy.name} attacked back for {monster_damage} damage!")
 
             print("\n" + "=" * 24) #boarder
 
@@ -210,7 +235,7 @@ def combat(player, enemy):
 
         # print current HP
         print(f"\n{player.name} HP: {player.hp}")
-        print(f"{enemy[0]} HP: {enemy[1]}")
+        print(f"{enemy.name} HP: {enemy_hp}")
 
     if player.hp <= 0:
         print("\n" + "=" * 24) #boarder
@@ -228,13 +253,13 @@ def combat(player, enemy):
     print("\n" + "=" * 24) #boarder
 
     #loot system pu from items.py
-    loot_pool = list(weapons.keys()) + list(consumables.keys())
+    loot_pool = list(weapons.keys()) + list(armors.keys()) + list(consumables.keys())
 
     # chance to drop item
     if loot_pool:
         dropped_item = random.choice(loot_pool)
 
-        print(f"\n{enemy[0]} dropped {dropped_item}!")
+        print(f"\n{enemy.name} dropped {dropped_item}!")
 
         pickup_item(player, dropped_item)
 
