@@ -1,23 +1,30 @@
+# Group Members
+#   Bayani, JD
+#   Lacanlale, Kyla
+#   Mercado, Luis
+#   Mohammad, Harry
+#   Nisperos, Joy
+#   Ocampo, Cassey
+#   Quiambao, Justin
+
 from combine import hero, adventure
 
-# GAME OVERALL SYSTEM
+# run game here :3
 def game():
     
-    print("\n====== PYTHON DUNGEON QUEST ======") #game name
+    print("\n~ PYTHON DUNGEON QUEST ~") #game name
 
     player = hero() #calls hero name and stats choice input and stats display
 
     print(f"\nWelcome to Python Dungeon Quest, Hero {player.name} the {player.player_class}!") #welcome
 
-    print("\nExplore dangerous dungeons, defeat enemies, and become the strongest hero!") #game description
+    print("\nExplore dangerous dungeons, defeat enemies, and become the strongest hero!\n") #game description
    
-    print("\n========================")
+    print("=" * 24) #boarder
 
-    print("\nEntering the dungeon...")
+    print("\nEntering the dungeon...\n")
 
-    print("\n========================")
-
-    # menu
+    print("=" * 24) #boarder
 
     adventure(player) # calls adventure function
 

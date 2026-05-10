@@ -77,8 +77,8 @@ def pickup_item(player, item_name):
 
         # player["weapon"] = item_name
 
-        print(f"{item_name} equipped!")
-        print(f"Attack increased by {weapon['attack_bonus']}")
+        print(f"\n{item_name} equipped!")
+        print(f"\nAttack increased by {weapon['attack_bonus']}")
 
     # EQUIP ARMOR
     elif item_name in armors:
@@ -91,7 +91,7 @@ def pickup_item(player, item_name):
         player.armor = item_name
 
         print(f"{item_name} equipped!")
-        print(f"HP increased by {armor['hp_bonus']}")
+        print(f"\nHP increased by {armor['hp_bonus']}")
 
 
 # USE CONSUMABLE FUNCTION
@@ -103,18 +103,23 @@ def use_item(player):
         print("\nInventory is empty.")
         return
 
-    print("\n====== INVENTORY ======")
+    print("\n======= INVENTORY ======")
 
     for index, item in enumerate(player.inventory, start=1):
         print(f"{index}. {item}")
 
     try:
-        choice = int(input("\nChoose item number to use: "))
+        choice = int(input("\nChoose item number to use (0 to exit): "))
+
+        print("\n" + "=" * 24) #boarder
 
         selected_item = player.inventory[choice - 1]
 
+        if selected_item == "0":
+            return
+
         # CHECK IF ITEM IS CONSUMABLE
-        if selected_item in consumables:
+        elif selected_item in consumables:
 
             potion = consumables[selected_item]
 
@@ -127,7 +132,7 @@ def use_item(player):
                 player.hp = player.max_hp
 
             print(f"\nYou used {selected_item}!")
-            print(f"You restored {heal_amount} HP!")
+            print(f"\nYou restored {heal_amount} HP!")
 
             # Remove item after use
             player.inventory.remove(selected_item)
@@ -155,36 +160,16 @@ def discard_item(player):
         print(f"{index}. {item}")
 
     try:
-        choice = int(input("\nChoose item number to discard: "))
+        choice = int(input("\nChoose item number to discard (0 to exit): "))
+
+        print("\n" + "=" * 24) #boarder
 
         removed_item = player.inventory.pop(choice - 1)
 
         print(f"\n{removed_item} discarded.")
 
+        if removed_item == "0":
+            return
+
     except:
         print("\nInvalid choice.")
-
-# # PLAYER DATA
-# # Stores player stats and inventory.
-
-# player = {
-#     "name": "Hero",
-#     "hp": 100,
-#     "max_hp": 100,
-#     "attack": 15,
-#     "inventory": [],
-#     "weapon": None,
-#     "armor": None
-# }
-
-# # SAMPLE TESTING - this shows what happens
-
-# pickup_item(player, "Longsword")
-# pickup_item(player, "Healing Potion")
-
-# print("\nCurrent Inventory:", player["inventory"])
-
-# use_item(player)
-
-# print("\nPlayer HP:", player["hp"])
-# print("Player Attack:", player["attack"])

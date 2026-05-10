@@ -1,5 +1,6 @@
 import random
-from items import pickup_item, use_item, discard_item, weapons, armors, consumables #para magamit yung code sa items.py
+from items import pickup_item, weapons, consumables #para magamit yung code sa items.py
+from menu import menu
 
 class Player:
     def __init__(self, name, player_class, hp, atk, skill):
@@ -32,7 +33,7 @@ class Player:
         print(f"ATK       : {self.atk}")
         print(f"Skill     : {self.skill}")
         print(f"Inventory : {', '.join(self.inventory) if self.inventory else 'Empty'}")
-        print("========================")
+        print("=" * 24) #boarder
 
 
 class Monster:
@@ -79,7 +80,7 @@ armor_loot = "Knight Armor"
 
 def hero(): #ginawa ko pong def kasi di ko macall HAHAHAH - ky
     #welcome
-    print("\nHELLO HERO")
+    print("\nHello, Hero!")
 
     # input player name
     name = input("\nWhat is your name?: ")
@@ -92,7 +93,7 @@ def hero(): #ginawa ko pong def kasi di ko macall HAHAHAH - ky
 
     # choose class
     while True:
-        choice = input("Enter class number (1-3): ")
+        choice = input("\nEnter class number (1-3): ")
 
         if choice in classes:
             selected = classes[choice]
@@ -121,7 +122,7 @@ def combat(player, enemy):
     enemy = enemy[:]  
 
     print("\n===== COMBAT START =====")
-    print(f"A wild {enemy[0]} appears!")
+    print(f"\nA wild {enemy[0]} appears!")
 
     actions = ("Attack", "Defend", player.skill)
 
@@ -134,7 +135,9 @@ def combat(player, enemy):
         print(f"3. {actions[2]}")
 
         # ask player for input
-        choice = input("Choose: ")
+        choice = input("\nChoose: ")
+
+        print("\n" + "=" * 24) #boarder
 
         # check if the player chooses to attack
         if choice == "1":
@@ -158,7 +161,9 @@ def combat(player, enemy):
                 player.hp = max(0, player.hp - monster_damage)
 
                 # print monster attack message
-                print(f"{enemy[0]} attacked back for {monster_damage} damage!")
+                print(f"\n{enemy[0]} attacked back for {monster_damage} damage!")
+
+            print("\n" + "=" * 24) #boarder
 
         # if the player chooses to defend
         elif choice == "2":
@@ -173,7 +178,9 @@ def combat(player, enemy):
             player.hp = max(0, player.hp - monster_damage)
 
             # print lowered damage message
-            print(f"{enemy[0]} attacked for only {monster_damage} damage!")
+            print(f"\n{enemy[0]} attacked for only {monster_damage} damage!")
+
+            print("\n" + "=" * 24) #boarder
 
         # skill attack
         elif choice == "3":
@@ -183,7 +190,7 @@ def combat(player, enemy):
             enemy[1] = max(0, enemy[1] - skill_damage)
 
             print(f"\n{player.name} used {player.skill}!")
-            print(f"It dealt {skill_damage} damage!")
+            print(f"\nIt dealt {skill_damage} damage!")
 
             if enemy[1] > 0:
 
@@ -191,22 +198,34 @@ def combat(player, enemy):
 
                 player.hp = max(0, player.hp - monster_damage)
 
-                print(f"{enemy[0]} attacked back for {monster_damage} damage!")
+                print(f"\n{enemy[0]} attacked back for {monster_damage} damage!")
+
+            print("\n" + "=" * 24) #boarder
 
         # if the input is not in the choices
         else:
             print("\nInvalid choice!")
+
+            print("\n" + "=" * 24) #boarder
 
         # print current HP
         print(f"\n{player.name} HP: {player.hp}")
         print(f"{enemy[0]} HP: {enemy[1]}")
 
     if player.hp <= 0:
+        print("\n" + "=" * 24) #boarder
+
         print(f"\n{player.name} lost!")
-        print("Game Over!")
+
+        print("\n" + "=" * 24) #boarder
+
         return False
 
+    print("\n" + "=" * 24) #boarder
+
     print(f"\n{player.name} won!")
+
+    print("\n" + "=" * 24) #boarder
 
     #loot system pu from items.py
     loot_pool = list(weapons.keys()) + list(consumables.keys())
@@ -217,7 +236,11 @@ def combat(player, enemy):
 
         print(f"\n{enemy[0]} dropped {dropped_item}!")
 
+        print("\n" + "=" * 24) #boarder
+
         pickup_item(player, dropped_item)
+
+        print("\n" + "=" * 24) #boarder
 
     return True
 
@@ -230,36 +253,35 @@ def adventure(player):
 
     while True:
         if player.hp <= 0:
-            print("💀 Game Over!")
+            print("\nGame Over!")
             break
 
         if current_room == 1:
             print("\n[Room 1: Overgrown Entrance] Vines crawl the walls. Path leads South.")
-            act = input("(1) Explore (2) Go South (3) Stats (4) Inventory (5) Discard Items: ")
+            act = input("\n(1) Explore | (2) Go South | (3) Menu\n: ")
 
             if act == "1":
                 if combat(player, random.choice([goblin, beast])):
                     room1_cleared = True
 
             elif act == "2":
+
+                print("\n" + "=" * 24) #boarder
+
                 # FIX: block skipping
                 if room1_cleared:
                     current_room = 2
                 else:
-                    print("You must defeat Room 1 first!")
+                    print("\nYou must defeat Room 1 first!")
+
+                    print("\n" + "=" * 24) #boarder
 
             elif act == "3":
-                player.display_stats()
-
-            elif act == "4": #from items.py
-                use_item(player)
-
-            elif act == "5":
-                discard_item(player)
+                menu(player)
 
         elif current_room == 2:
             print("\n[Room 2: Sunken Armory] Rust and shadows. Paths: North, East.")
-            act = input("(1) Explore (2) Go North (3) Go East (4) Stats (5) Inventory (6) Discard Items: ")
+            act = input("\n(1) Explore | (2) Go North | (3) Go East | (4) Menu\n: ")
 
             if act == "1":
                 if combat(player, random.choice([undead, giant_beast])):
@@ -269,43 +291,37 @@ def adventure(player):
                 current_room = 1
 
             elif act == "3":
+
+                print("\n" + "=" * 24) #boarder
                 # FIX: block skipping boss room
                 if room2_cleared:
                     current_room = 3
                 else:
-                    print("You must defeat Room 2 first!")
+                    print("\nYou must defeat Room 2 first!")
+
+                    print("\n" + "=" * 24) #boarder
 
             elif act == "4": #from items.py
-                player.display_stats()
-
-            elif act == "5":
-                use_item(player)
-
-            elif act == "6":
-                discard_item(player)
+                menu(player)
 
         elif current_room == 3:
             print("\n[Room 3: Boss Sanctum] The air is heavy. Path: West.")
-            act = input("(1) FIGHT BOSS (2) Go West (3) Stats (4) Inventory (5) Discard Items: ")
+            act = input("\n(1) FIGHT BOSS | (2) Go West | (3) Menu\n: ")
 
             if act == "1":
                 if combat(player, goblin_king):
+
                     print("\nGAME COMPLETED: You have defeated the bosses and cleared the dungeon!")
                     break
                 else:
+                    print("\nGame Over!")
                     break
 
             elif act == "2":
                 current_room = 2
 
             elif act == "3":
-                player.display_stats()
-
-            elif act == "4": #from items.py
-                use_item(player)
-
-            elif act == "5":
-                discard_item(player)
+                menu(player)
 
 # player = hero()
 
