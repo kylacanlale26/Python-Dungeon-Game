@@ -8,10 +8,13 @@ def menu(player):
     while True:
             print("\n========= MENU =========")
 
-            #display format of the options | joins the list into one string
-            formatted = " | ".join([f"[{i}] {item}" for i, item in enumerate(options, start=1)])
+            print() # space
+
+            #display format of the options
+            for i, item in enumerate(options, start=1):
+                print(f"({i}) {item}")
             
-            menu = input(f"\n{formatted}\n: ")
+            menu = input(f": ")
 
             #validate choice - checks if input is a digit or not included in the choices
             while menu not in ["1", "2", "3", "4"]:
