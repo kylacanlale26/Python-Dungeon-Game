@@ -236,8 +236,6 @@ def combat(player, enemy):
 
         print(f"\n{enemy[0]} dropped {dropped_item}!")
 
-        print("\n" + "=" * 24) #boarder
-
         pickup_item(player, dropped_item)
 
         print("\n" + "=" * 24) #boarder

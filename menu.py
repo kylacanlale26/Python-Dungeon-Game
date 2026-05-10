@@ -8,7 +8,8 @@ def menu(player):
     while True:
             print("\n========= MENU =========")
 
-            formatted = " | ".join([f"[{i}] {item}" for i, item in enumerate(options, start=1)]) #display format of the options | joins the list into one string
+            #display format of the options | joins the list into one string
+            formatted = " | ".join([f"[{i}] {item}" for i, item in enumerate(options, start=1)])
 
             menu = input(f"\n{formatted}\n: ")
 

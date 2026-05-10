@@ -60,39 +60,51 @@ consumables = {
 
 # PICKUP ITEM FUNCTION
 #This function handles item pickup.
-
 def pickup_item(player, item_name):
+            
+        while True: #keep asking until valid input
+            pick_up = input("\nPick up loot (yes/no)\n: ").lower() #converts input to lowercase
 
-    # Add item to inventory 
-    player.inventory.append(item_name)
+            print("\n" + "=" * 24) #boarder
+   
+            if pick_up == "yes":
+                player.inventory.append(item_name) # Add item to inventory
 
-    print(f"\nYou picked up {item_name}!")
+                print(f"\nYou picked up {item_name}!")
 
-    # EQUIP WEAPON
-    if item_name in weapons:
+                # EQUIP WEAPON
+                if item_name in weapons: #checks if the picked item is a weapon
 
-        weapon = weapons[item_name]
+                    weapon = weapons[item_name] #gets the weapon stats
 
-        player.atk += weapon["attack_bonus"]
+                    player.atk += weapon["attack_bonus"] #increase players attack as bonus
 
-        # player["weapon"] = item_name
+                    player.weapon = item_name #saves the equipped weapon
 
-        print(f"\n{item_name} equipped!")
-        print(f"\nAttack increased by {weapon['attack_bonus']}")
+                    print(f"\n{item_name} equipped!")
+                    print(f"\nAttack increased by {weapon['attack_bonus']}")
 
-    # EQUIP ARMOR
-    elif item_name in armors:
+                # EQUIP ARMOR
+                elif item_name in armors: #checks if the picked item is an armor
 
-        armor = armors[item_name]
+                    armor = armors[item_name] #gets the armor stats
 
-        player.hp += armor["hp_bonus"]
-        player.max_hp += armor["hp_bonus"]
+                    player.hp += armor["hp_bonus"] #increase current hp
+                    player.max_hp += armor["hp_bonus"] #also increase max hp
 
-        player.armor = item_name
+                    player.armor = item_name #saves the equipped armor
 
-        print(f"{item_name} equipped!")
-        print(f"\nHP increased by {armor['hp_bonus']}")
+                    print(f"{item_name} equipped!")
+                    print(f"\nHP increased by {armor['hp_bonus']}")
+                break
 
+            elif pick_up == "no":
+                print(f"\nYou left {item_name} behind.")
+                break
+
+            else:
+                print("\nInvalid choice. Please type 'yes or 'no'.")
+                
 
 # USE CONSUMABLE FUNCTION
 
@@ -100,6 +112,7 @@ def use_item(player):
 
     # Check if inventory is empty
     if not player.inventory:
+        print("\n" + "=" * 24) #boarder
         print("\nInventory is empty.")
         return
 
