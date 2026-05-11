@@ -69,31 +69,22 @@ def pickup_item(player, item_name):
    
             if pick_up == "yes":
                 player.inventory.append(item_name) # add item to inventory
-
                 print(f"\nYou picked up {item_name}!")
 
                 # equip weapon
                 if item_name in weapons: # checks if the picked item is a weapon
-
                     weapon = weapons[item_name] # gets the weapon stats
-
                     player.atk += weapon["attack_bonus"] # increase players attack as bonus
-
                     player.weapon = item_name # saves the equipped weapon
-
                     print(f"\n{item_name} equipped!")
                     print(f"\nAttack increased by {weapon['attack_bonus']}")
 
                 # equip armor
                 elif item_name in armors: # checks if the picked item is an armor
-
                     armor = armors[item_name] # gets the armor stats
-
                     player.hp += armor["hp_bonus"] # increase current hp
                     player.max_hp += armor["hp_bonus"] # also increase max hp
-
                     player.armor = item_name # saves the equipped armor
-
                     print(f"{item_name} equipped!")
                     print(f"\nHP increased by {armor['hp_bonus']}")
                 break
@@ -122,7 +113,6 @@ def use_item(player):
 
     try:
         choice = int(input("\nChoose item (potion) number to use (0 to exit): "))
-
         print("\n" + "=" * 24) # boarder
 
         selected_item = player.inventory[choice - 1]
@@ -132,11 +122,8 @@ def use_item(player):
 
         # check if item is consumable
         elif selected_item in consumables:
-
             potion = consumables[selected_item]
-
             heal_amount = potion["heal"]
-
             player.hp += heal_amount
 
             # prevent hp overflow
@@ -172,11 +159,8 @@ def discard_item(player):
 
     try:
         choice = int(input("\nChoose item number to discard (0 to exit): "))
-
         print("\n" + "=" * 24) # boarder
-
         removed_item = player.inventory.pop(choice - 1) # removes discarded item in inventory
-
         print(f"\n{removed_item} discarded.")
 
         if removed_item == "0":
