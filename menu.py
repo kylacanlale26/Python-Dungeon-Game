@@ -1,4 +1,3 @@
-# from hero import Player
 from items import use_item, discard_item
 
 def menu(player):

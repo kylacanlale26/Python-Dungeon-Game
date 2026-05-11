@@ -1,11 +1,11 @@
 # Group Members
-#   Bayani, JD
-#   Lacanlale, Kyla
-#   Mercado, Luis
-#   Mohammad, Harry
-#   Nisperos, Joy
-#   Ocampo, Cassey
-#   Quiambao, Justin
+    # Bayani, JD
+    # Lacanlale, Kyla
+    # Mercado, Luis
+    # Mohammad, Harry
+    # Nisperos, Joy
+    # Ocampo, Cassey
+    # Quiambao, Justin
 
 from hero import hero
 from adventure import adventure

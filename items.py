@@ -1,7 +1,7 @@
-# ITEM SYSTEM
+# item system
 
-# This dictionary stores all weapon items in the game.
-# Weapons increase player attack damage
+# this dictionary stores all weapon items in the game.
+# weapons increase player attack damage
 weapons = {
     "Longsword": {
         "type": "Weapon",
@@ -22,7 +22,7 @@ weapons = {
     }
 }
 
-# Armors increase player HP / defense
+# armors increase player hp / defense
 armors = {
     "Leather Armor": {
         "type": "Armor",
@@ -43,7 +43,7 @@ armors = {
     }
 }
 
-# Consumable items restore HP
+# consumable items restore hp
 consumables = {
     "Healing Potion": {
         "type": "Consumable",
@@ -58,41 +58,41 @@ consumables = {
     }
 }
 
-# PICKUP ITEM FUNCTION
-#This function handles item pickup.
+# pickup item system
+# this function handles item pickup
 def pickup_item(player, item_name):
             
-        while True: #keep asking until valid input
-            pick_up = input("\nPick up loot (yes/no)\n: ").lower() #converts input to lowercase
+        while True: # keep asking until valid input
+            pick_up = input("\nPick up loot (yes/no)\n: ").lower() # converts input to lowercase
 
-            print("\n" + "=" * 24) #boarder
+            print("\n" + "=" * 24) # boarder
    
             if pick_up == "yes":
-                player.inventory.append(item_name) # Add item to inventory
+                player.inventory.append(item_name) # add item to inventory
 
                 print(f"\nYou picked up {item_name}!")
 
-                # EQUIP WEAPON
-                if item_name in weapons: #checks if the picked item is a weapon
+                # equip weapon
+                if item_name in weapons: # checks if the picked item is a weapon
 
-                    weapon = weapons[item_name] #gets the weapon stats
+                    weapon = weapons[item_name] # gets the weapon stats
 
-                    player.atk += weapon["attack_bonus"] #increase players attack as bonus
+                    player.atk += weapon["attack_bonus"] # increase players attack as bonus
 
-                    player.weapon = item_name #saves the equipped weapon
+                    player.weapon = item_name # saves the equipped weapon
 
                     print(f"\n{item_name} equipped!")
                     print(f"\nAttack increased by {weapon['attack_bonus']}")
 
-                # EQUIP ARMOR
-                elif item_name in armors: #checks if the picked item is an armor
+                # equip armor
+                elif item_name in armors: # checks if the picked item is an armor
 
-                    armor = armors[item_name] #gets the armor stats
+                    armor = armors[item_name] # gets the armor stats
 
-                    player.hp += armor["hp_bonus"] #increase current hp
-                    player.max_hp += armor["hp_bonus"] #also increase max hp
+                    player.hp += armor["hp_bonus"] # increase current hp
+                    player.max_hp += armor["hp_bonus"] # also increase max hp
 
-                    player.armor = item_name #saves the equipped armor
+                    player.armor = item_name # saves the equipped armor
 
                     print(f"{item_name} equipped!")
                     print(f"\nHP increased by {armor['hp_bonus']}")
@@ -106,13 +106,12 @@ def pickup_item(player, item_name):
                 print("\nInvalid choice. Please type 'yes or 'no'.")
                 
 
-# USE CONSUMABLE FUNCTION
-
+# use consumable function
 def use_item(player):
 
-    # Check if inventory is empty
+    # check if inventory is empty
     if not player.inventory:
-        print("\n" + "=" * 24) #boarder
+        print("\n" + "=" * 24) # boarder
         print("\nInventory is empty.")
         return
 
@@ -122,16 +121,16 @@ def use_item(player):
         print(f"{index}. {item}")
 
     try:
-        choice = int(input("\nChoose item number to use (0 to exit): "))
+        choice = int(input("\nChoose item (potion) number to use (0 to exit): "))
 
-        print("\n" + "=" * 24) #boarder
+        print("\n" + "=" * 24) # boarder
 
         selected_item = player.inventory[choice - 1]
 
         if selected_item == "0":
             return
 
-        # CHECK IF ITEM IS CONSUMABLE
+        # check if item is consumable
         elif selected_item in consumables:
 
             potion = consumables[selected_item]
@@ -140,14 +139,14 @@ def use_item(player):
 
             player.hp += heal_amount
 
-            # Prevent HP overflow
+            # prevent hp overflow
             if player.hp > player.max_hp:
                 player.hp = player.max_hp
 
             print(f"\nYou used {selected_item}!")
             print(f"\nYou restored {heal_amount} HP!")
 
-            # Remove item after use
+            # remove item after use
             player.inventory.remove(selected_item)
 
         else:
@@ -157,12 +156,11 @@ def use_item(player):
         print("\nInvalid choice.")
 
 
-# DISCARD ITEM FUNCTION
-# Allows the player to throw away unwanted items.
-
+# discard item function
+# allows the player to throw away unwanted items.
 def discard_item(player):
 
-    # Check if inventory is empty
+    # check if inventory is empty
     if not player.inventory:
         print("\nInventory is empty.")
         return
@@ -175,9 +173,9 @@ def discard_item(player):
     try:
         choice = int(input("\nChoose item number to discard (0 to exit): "))
 
-        print("\n" + "=" * 24) #boarder
+        print("\n" + "=" * 24) # boarder
 
-        removed_item = player.inventory.pop(choice - 1)
+        removed_item = player.inventory.pop(choice - 1) # removes discarded item in inventory
 
         print(f"\n{removed_item} discarded.")
 
