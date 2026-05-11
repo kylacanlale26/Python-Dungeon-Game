@@ -43,13 +43,13 @@ def combat(player, enemy):
 
         # if the player chooses to attack
         if choice == "1":
-            damage = random.randint(5, 10) # generate random damage from 5 to 10
+            damage = player.atk 
             enemy_hp = max(0, enemy_hp - damage) # minus damage from monster hp
             print(f"\n{player.name} attacked the {enemy.name} for {damage} damage!") # print attack message
 
             # check if the monster is still alive to attack back
             if enemy_hp > 0:
-                monster_damage = random.randint(4, 8) # generate monster damage from 4 to 8
+                monster_damage = enemy.atk 
                 player.hp = max(0, player.hp - monster_damage) # minus player HP
                 print(f"\n{enemy.name} attacked back for {monster_damage} damage!") # print monster attack message
 
@@ -58,21 +58,21 @@ def combat(player, enemy):
         # if the player chooses to defend
         elif choice == "2":            
             print(f"\n{player.name} defended!") # print defend message
-            monster_damage = random.randint(1, 4) # lower damage because player chose to defend
+            monster_damage = enemy.atk 
             player.hp = max(0, player.hp - monster_damage) # minus player HP
             print(f"\n{enemy.name} attacked for only {monster_damage} damage!") # print lowered damage message
             print("\n" + "=" * 24) # boarder
 
         # if the player chooses to skill attack
         elif choice == "3":
-            skill_damage = random.randint(8, 15) # generate random damage from 8 to 15
+            skill_damage = player.skill_dmg 
             enemy_hp = max(0, enemy_hp - skill_damage) # minus enemy HP
             print(f"\n{player.name} used {player.skill}!") # print used skill
             print(f"\nIt dealt {skill_damage} damage!") # print skill damage
 
             # check if the monster is still alive to attack back
             if enemy_hp > 0:
-                monster_damage = random.randint(10, 15) # generate monster damage from 10 to 15
+                monster_damage = enemy.atk
                 player.hp = max(0, player.hp - monster_damage) # minus player HP
                 print(f"\n{enemy.name} attacked back for {monster_damage} damage!") # print enemy attack
 
