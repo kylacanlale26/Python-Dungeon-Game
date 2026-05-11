@@ -6,7 +6,7 @@ def menu(player):
     options = ["Player Stats", "Open Inventory", "Discard Items", "Exit"] #list of menu options
     
     while True:
-            print("\n========= MENU =========")
+            print("\n====== PLAYER MENU =====")
 
             print() # space
 
