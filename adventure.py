@@ -11,9 +11,16 @@ def room(player, enemies):
     if event == "combat":
         return combat(player, random.choice(enemies)) # this clears the room that will allow player to be able to move to next room
 
-    else:
+    elif event == "chest":
         bonus_chest(player) # bonus chest event
         return False   # will not clear the room, only a bonus event
+
+    else:
+        print("\n" + "=" * 24) # boarder
+        print("\nThe room is empty...")
+        print("\n" + "=" * 24) # boarder
+        return False   # will not clear the room because it's empty
+
 
 # adventure | navigate between rooms
 def adventure(player):
