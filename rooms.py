@@ -65,7 +65,7 @@ def combat(player, enemy):
 
         # if the player chooses to skill attack
         elif choice == "3":
-            skill_damage = player.skill_dmg 
+            skill_damage = player.atk * 2
             enemy_hp = max(0, enemy_hp - skill_damage) # minus enemy HP
             print(f"\n{player.name} used {player.skill}!") # print used skill
             print(f"\nIt dealt {skill_damage} damage!") # print skill damage

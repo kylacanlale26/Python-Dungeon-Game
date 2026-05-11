@@ -11,7 +11,7 @@ def room(player, enemies):
     if event == "combat":
         return combat(player, random.choice(enemies)) # this clears the room that will allow player to be able to move to next room
 
-    elif event == "chest":
+    else:
         bonus_chest(player) # bonus chest event
         return False   # will not clear the room, only a bonus event
 

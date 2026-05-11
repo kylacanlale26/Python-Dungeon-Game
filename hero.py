@@ -1,12 +1,11 @@
 class Player: # blueprint for character
-    def __init__(self, name, player_class, hp, atk, skill, skill_dmg):
+    def __init__(self, name, player_class, hp, atk, skill):
         self.name = name
         self.player_class = player_class
         self.hp = hp
         self.max_hp = hp
         self.atk = atk
         self.skill = skill
-        self.skill_dmg - skill_dmg
         self.inventory = []
         self.weapon = None
         self.armor = None
@@ -38,22 +37,19 @@ classes = {
         "name": "Warrior",
         "hp": 120,
         "atk": 15,
-        "skill": "Shield Bash",
-        "skill_dmg":25
+        "skill": "Shield Bash"
     },
     "2": {
         "name": "Mage",
         "hp": 80,
         "atk": 25,
-        "skill": "Fireball",
-        "skill_dmg":40
+        "skill": "Fireball"
     },
     "3": {
         "name": "Rogue",
         "hp": 90,
         "atk": 20,
-        "skill": "Backstab",
-        "skill_dmg":35
+        "skill": "Backstab"
     }
 }
 
@@ -89,7 +85,6 @@ def hero():
         hp=selected["hp"],
         atk=selected["atk"],
         skill=selected["skill"],
-        skill_dmg=selected["skill_dmg"]
     )
 
     # display player information
