@@ -4,7 +4,7 @@ from items import pickup_item, weapons, armors, consumables
 # bonus chest room
 def bonus_chest(player):
 
-    print("\n" + "=" * 24) # boarder
+    print("\n" + "=" * 24) # border
 
     print("\nYou found a chest!")
     
@@ -14,7 +14,7 @@ def bonus_chest(player):
     print(f"Chest contains: {item}") # print what loot is inside the chest
     pickup_item(player, item) # asks if player will pick up the loot
 
-    print("\n" + "=" * 24) # boarder
+    print("\n" + "=" * 24) # border
 
 # battle
 def combat(player, enemy):

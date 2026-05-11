@@ -29,7 +29,7 @@ class Player: # blueprint for character
         print(f"ATK       : {self.atk}")
         print(f"Skill     : {self.skill}")
         print(f"Inventory : {', '.join(self.inventory) if self.inventory else 'Empty'}")
-        print("=" * 24) # boarder
+        print("=" * 24) # border
 
 # classes and stats
 classes = {
